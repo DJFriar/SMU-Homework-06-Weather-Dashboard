@@ -19,6 +19,12 @@ $(document).ready(function() {
         displayWeatherData(inputtedCity);
     });
 
+    function logCityToHistoryArea(inputtedCity) {
+        var historyListItem = $("<li>").attr("class","list-group-item");
+        historyListItem.text(inputtedCity);
+        $("#searchHistory").prepend(historyListItem);
+    };
+
     function fetchCurrentWeather(inputtedCity) {
         var queryURL = currentWeatherAPIurl + inputtedCity + APIKey;
         console.log(currentWeatherAPIurl + inputtedCity + APIKey);
@@ -47,14 +53,17 @@ $(document).ready(function() {
         // alert("fetching 5-day forecast" + inputtedCity);
     };
 
-    function logCityToHistoryArea(inputtedCity) {
-        var historyListItem = $("<li>").attr("class","list-group-item");
-        historyListItem.text(inputtedCity);
-        $("#searchHistory").prepend(historyListItem);
-    };
-
     function displayWeatherData(inputtedCity) {
         $("mainContent").empty();
-        $("#mainContent").text(inputtedCity + " Weather Data Goes Here");
+
+        // fill in data
+        $("#cityName").text(inputtedCity);
+        $("#currentTemp").text(inputtedCity);
+        $("#currentHumidity").text(inputtedCity);
+        $("#currentWindSpeed").text(inputtedCity);
+        $("#currentUV").text(inputtedCity);
+
+        //show the data section
+        $("#mainContent").fadeIn(500);
     };
 });

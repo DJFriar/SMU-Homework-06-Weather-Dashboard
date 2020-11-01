@@ -1,8 +1,30 @@
+header {
+    text-align: center;
+    background-color: #111d4a; /* #343a3f */
+    color: white;
+    border-radius: 0;
+    height: 60px;
+}
+
 #leftSidebar {
     background-color: aliceblue;
+    border-radius: 16px;
 }
 
 .list-group {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.jumbotron {
+    border-radius: 16px;
+    padding: 20px;
+}
+
+#mainContent {
+    display: none;
+}
+
+#lastUpdated {
+    text-align: center;
 }
