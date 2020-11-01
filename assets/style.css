@@ -11,6 +11,16 @@ header {
     border-radius: 16px;
 }
 
+.container {
+    margin-top: 10px;
+}
+
+.card {
+    border-radius: 16px;
+    background-color: dodgerblue;
+    color: white;
+}
+
 .list-group {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -18,7 +28,12 @@ header {
 
 .jumbotron {
     border-radius: 16px;
+    background-color: aliceblue;
     padding: 20px;
+}
+
+#searchField {
+    text-transform: capitalize;
 }
 
 #mainContent {
@@ -26,5 +41,6 @@ header {
 }
 
 #lastUpdated {
+    margin-top: 10px;
     text-align: center;
 }

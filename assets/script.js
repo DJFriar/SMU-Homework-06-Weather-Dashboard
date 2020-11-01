@@ -6,7 +6,13 @@ $(document).ready(function() {
     // handle the search button click
     $("#searchBtn").on("click", function(event) {
         event.preventDefault();
-        var inputtedCity = $("#searchField").val();
+        // capture the user's input
+        var rawInputtedCity = $("#searchField").val();
+        
+        // make everything title case and pretty
+        var inputtedCity = rawInputtedCity.toLowerCase().replace(/\b[a-z]/g, function(txtVal) {
+            return txtVal.toUpperCase();
+        });
 
         // add city to the search history
         logCityToHistoryArea(inputtedCity);
