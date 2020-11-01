@@ -8,9 +8,15 @@ $(document).ready(function() {
         event.preventDefault();
         var inputtedCity = $("#searchField").val();
 
+        // add city to the search history
+        logCityToHistoryArea(inputtedCity);
+
+        // fetch the weather data
         fetchCurrentWeather(inputtedCity);
         fetch5DayForecast(inputtedCity);
-        displayWeatherData();
+
+        // display the weather data
+        displayWeatherData(inputtedCity);
     });
 
     function fetchCurrentWeather(inputtedCity) {
@@ -24,7 +30,7 @@ $(document).ready(function() {
               console.log(response);
         });
 
-        alert("fetching current weather" + inputtedCity);
+        // alert("fetching current weather" + inputtedCity);
     };
 
     function fetch5DayForecast(inputtedCity) {
@@ -38,10 +44,17 @@ $(document).ready(function() {
               console.log(response);
         });
 
-        alert("fetching 5-day forecast" + inputtedCity);
+        // alert("fetching 5-day forecast" + inputtedCity);
     };
 
-    function displayWeatherData() {
-        $("#mainContent").text("Weather Data Goes Here");
+    function logCityToHistoryArea(inputtedCity) {
+        var historyListItem = $("<li>").attr("class","list-group-item");
+        historyListItem.text(inputtedCity);
+        $("#searchHistory").prepend(historyListItem);
+    };
+
+    function displayWeatherData(inputtedCity) {
+        $("mainContent").empty();
+        $("#mainContent").text(inputtedCity + " Weather Data Goes Here");
     };
 });

@@ -1,3 +1,8 @@
 #leftSidebar {
     background-color: aliceblue;
 }
+
+.list-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
