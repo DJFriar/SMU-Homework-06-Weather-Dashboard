@@ -10,7 +10,23 @@
 </head>
 <body>
 
-
+    <div class="container">
+        <div class="row">
+          <div class="col-3" id="leftSidebar">
+                <div id="searchEntry">
+                    Search for a City:<br>
+                    <input type="text" id="searchField" name="searchField">
+                    <button type="button" class="btn btn-primary" id="searchBtn"><span class="fas fa-search"></span></button><br>
+                </div>
+                <div id="searchHistory">
+                    LIST GROUP
+                </div>
+          </div>
+          <div class="col-9" id="mainContent">
+            City weather goes here
+          </div>
+        </div>
+      </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
