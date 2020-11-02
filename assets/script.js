@@ -1,9 +1,10 @@
 $(document).ready(function() {
     // global variables
     var now = moment().format("M/D/YYYY");
-    var APIKey = "&units=imperial&appid=c04d3b0e71450877c96228b5595d876b";
+    var APIKey = "&appid=c04d3b0e71450877c96228b5595d876b";
     var weatherForecastAPIurl = "http://api.openweathermap.org/data/2.5/forecast?q=";
     var currentWeatherAPIurl = "https://api.openweathermap.org/data/2.5/weather?q=";
+    var weatherAPIunits = "&units=imperial";
     var inputtedCity = "";
 
     // handle the search button click
@@ -35,8 +36,7 @@ $(document).ready(function() {
     };
 
     function fetchCurrentWeather() {
-        var queryURL = currentWeatherAPIurl + inputtedCity + APIKey;
-        console.log(currentWeatherAPIurl + inputtedCity + APIKey);
+        var queryURL = currentWeatherAPIurl + inputtedCity + weatherAPIunits + APIKey;
 
         $.ajax({
             url: queryURL,
@@ -47,24 +47,39 @@ $(document).ready(function() {
             var temp = "";
             var humidity = "";
             var windSpeed = "";
+            var uviIndex = "";
+            var lat = "";
+            var long = "";
 
             // extract the required data from the response
+            lat = response.coord.lat;
+            long = response.coord.lon;
+            uviIndex = fetchCurrentUVI(lat, long);
             weatherIcon = response.weather[0].icon;
-            console.log(weatherIcon);
             temp = response.main.temp;
             humidity = response.main.humidity;
             windSpeed = response.wind.speed;
 
             // push the data to the front end
-            displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon)
+            displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex);
         });
-
-        // alert("fetching current weather" + inputtedCity);
     };
 
+    function fetchCurrentUVI(lat, long) {
+        var queryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + APIKey;
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+          }).then(function(response) {
+            console.log(response);
+            var uvi = response.value
+            return(uvi);
+        });
+    }
+
     function fetch5DayForecast() {
-        var queryURL = weatherForecastAPIurl + inputtedCity + APIKey;
-        console.log(weatherForecastAPIurl + inputtedCity + APIKey);
+        var queryURL = weatherForecastAPIurl + inputtedCity + weatherAPIunits + APIKey;
 
         $.ajax({
             url: queryURL,
@@ -76,10 +91,9 @@ $(document).ready(function() {
         // alert("fetching 5-day forecast" + inputtedCity);
     };
 
-    function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon) {
+    function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex) {
         $("mainContent").empty();
         var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
-        console.log("Icon Source = " + iconSrc);
 
         // fill in data
         $("#todaysDate").text(now);
@@ -88,7 +102,7 @@ $(document).ready(function() {
         $("#currentTemp").text(temp);
         $("#currentHumidity").text(humidity);
         $("#currentWindSpeed").text(windSpeed);
-        $("#currentUV").text(inputtedCity);
+        $("#currentUV").text(uviIndex);
 
         //show the data section
         $("#mainContent").fadeIn(500);
