@@ -1,7 +1,10 @@
 $(document).ready(function() {
+    // global variables
+    var now = moment().format("M/D/YYYY");
     var APIKey = "&units=imperial&appid=c04d3b0e71450877c96228b5595d876b";
     var weatherForecastAPIurl = "http://api.openweathermap.org/data/2.5/forecast?q=";
     var currentWeatherAPIurl = "https://api.openweathermap.org/data/2.5/weather?q=";
+    var inputtedCity = "";
 
     // handle the search button click
     $("#searchBtn").on("click", function(event) {
@@ -10,28 +13,28 @@ $(document).ready(function() {
         var rawInputtedCity = $("#searchField").val();
         
         // make everything title case and pretty
-        var inputtedCity = rawInputtedCity.toLowerCase().replace(/\b[a-z]/g, function(txtVal) {
+        inputtedCity = rawInputtedCity.toLowerCase().replace(/\b[a-z]/g, function(txtVal) {
             return txtVal.toUpperCase();
         });
 
         // add city to the search history
-        logCityToHistoryArea(inputtedCity);
+        logCityToHistoryArea();
 
         // fetch the weather data
-        fetchCurrentWeather(inputtedCity);
-        fetch5DayForecast(inputtedCity);
+        fetchCurrentWeather();
+        // fetch5DayForecast();
 
         // display the weather data
-        displayWeatherData(inputtedCity);
+        // displayWeatherData();
     });
 
-    function logCityToHistoryArea(inputtedCity) {
+    function logCityToHistoryArea() {
         var historyListItem = $("<li>").attr("class","list-group-item");
         historyListItem.text(inputtedCity);
         $("#searchHistory").prepend(historyListItem);
     };
 
-    function fetchCurrentWeather(inputtedCity) {
+    function fetchCurrentWeather() {
         var queryURL = currentWeatherAPIurl + inputtedCity + APIKey;
         console.log(currentWeatherAPIurl + inputtedCity + APIKey);
 
@@ -39,13 +42,27 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET"
           }).then(function(response) {
-              console.log(response);
+            console.log(response);
+            var weatherIcon = "";
+            var temp = "";
+            var humidity = "";
+            var windSpeed = "";
+
+            // extract the required data from the response
+            weatherIcon = response.weather[0].icon;
+            console.log(weatherIcon);
+            temp = response.main.temp;
+            humidity = response.main.humidity;
+            windSpeed = response.wind.speed;
+
+            // push the data to the front end
+            displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon)
         });
 
         // alert("fetching current weather" + inputtedCity);
     };
 
-    function fetch5DayForecast(inputtedCity) {
+    function fetch5DayForecast() {
         var queryURL = weatherForecastAPIurl + inputtedCity + APIKey;
         console.log(weatherForecastAPIurl + inputtedCity + APIKey);
 
@@ -59,14 +76,18 @@ $(document).ready(function() {
         // alert("fetching 5-day forecast" + inputtedCity);
     };
 
-    function displayWeatherData(inputtedCity) {
+    function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon) {
         $("mainContent").empty();
+        var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
+        console.log("Icon Source = " + iconSrc);
 
         // fill in data
+        $("#todaysDate").text(now);
         $("#cityName").text(inputtedCity);
-        $("#currentTemp").text(inputtedCity);
-        $("#currentHumidity").text(inputtedCity);
-        $("#currentWindSpeed").text(inputtedCity);
+        $("#weatherIcon").attr("src",iconSrc);
+        $("#currentTemp").text(temp);
+        $("#currentHumidity").text(humidity);
+        $("#currentWindSpeed").text(windSpeed);
         $("#currentUV").text(inputtedCity);
 
         //show the data section

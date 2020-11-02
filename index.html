@@ -27,11 +27,15 @@
           </div>
           <div class="col-9" id="mainContent">
             <div class="jumbotron" id="currentWeather">
-                <h1 class="display-4" id="cityName"></h1>
+                <div id="cityWithIcon">
+                    <h1 class="display-4" id="cityName"></h1>
+                    <img id="weatherIcon" src=""></img>
+                </div>
+                <p id="todaysDate"></p>
                 <hr class="my-4">
-                <p>Temperature: <span id="currentTemp"></span></p>
-                <p>Humidity: <span id="currentHumidity"></span></p>
-                <p>Wind Speed: <span id="currentWindSpeed"></span></p>
+                <p>Temperature: <span id="currentTemp"></span>&nbsp;&deg;F</p>
+                <p>Humidity: <span id="currentHumidity"></span>&percnt;</p>
+                <p>Wind Speed: <span id="currentWindSpeed"></span>&nbsp;MPH</p>
                 <p>UV Index: <span id="currentUV"></span></p>
             </div>
             <div id="5DayForecast">
