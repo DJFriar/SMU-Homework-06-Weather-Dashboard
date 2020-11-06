@@ -23,10 +23,10 @@ $(document).ready(function() {
 
         // fetch the weather data
         fetchCurrentWeather();
-        // fetch5DayForecast();
+        fetch5DayForecast();
 
         // display the weather data
-        // displayWeatherData();
+        displayWeatherData();
     });
 
     function logCityToHistoryArea() {
@@ -43,6 +43,8 @@ $(document).ready(function() {
             method: "GET"
           }).then(function(response) {
             console.log(response);
+
+            // set up required variables
             var weatherIcon = "";
             var temp = "";
             var humidity = "";
@@ -86,13 +88,29 @@ $(document).ready(function() {
             method: "GET"
           }).then(function(response) {
               console.log(response);
+
+              // set up required variables
+              var weatherIcon = "";
+              var temp = "";
+              var humidity = "";
+
+              // extract the required data from the response
+              weatherIcon = response.list[0].weather[0].icon
+              temp = response.list[0].main.temp;
+              humidity = response.list[0].main.humidity;
+
+              // push results to browser
+              console.log("Day 1 Temp: " + temp);
+              console.log("Day 1 Humidity: " + humidity);
+              displayFutureWeatherData();
+
         });
 
         // alert("fetching 5-day forecast" + inputtedCity);
     };
 
     function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex) {
-        $("mainContent").empty();
+        $("#currentWeather").empty();
         var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
         // fill in data
@@ -104,7 +122,17 @@ $(document).ready(function() {
         $("#currentWindSpeed").text(windSpeed);
         $("#currentUV").text(uviIndex);
 
-        //show the data section
-        $("#mainContent").fadeIn(500);
+        // show the data section
+        $("#currentWeather").fadeIn(500);
     };
+
+    function displayFutureWeatherData() {
+        // $("#futureForecast").empty();
+
+        // fill in data
+
+        // show the data section
+        $("#futureForecast").fadeIn(500);
+    };
+
 });

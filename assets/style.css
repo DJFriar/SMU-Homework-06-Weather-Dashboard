@@ -52,7 +52,11 @@ header {
     text-transform: capitalize;
 }
 
-#mainContent {
+#currentWeather {
+    display: none;
+}
+
+#futureForecast {
     display: none;
 }
 
