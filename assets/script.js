@@ -2,7 +2,7 @@ $(document).ready(function() {
     // global variables
     var now = moment().format("M/D/YYYY");
     var APIKey = "&appid=c04d3b0e71450877c96228b5595d876b";
-    var weatherForecastAPIurl = "http://api.openweathermap.org/data/2.5/forecast?q=";
+    var weatherForecastAPIurl = "https://api.openweathermap.org/data/2.5/forecast?q=";
     var currentWeatherAPIurl = "https://api.openweathermap.org/data/2.5/weather?q=";
     var weatherAPIunits = "&units=imperial";
     var inputtedCity = "";
@@ -86,7 +86,7 @@ $(document).ready(function() {
     };
 
     function fetchCurrentUVI(lat, long, temp, humidity, windSpeed, weatherIcon) {
-        var queryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + APIKey;
+        var queryURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + APIKey;
 
         $.ajax({
             url: queryURL,
@@ -135,7 +135,7 @@ $(document).ready(function() {
     };
 
     function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex) {
-        var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
+        var iconSrc = "https://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
         // color code the UV Index
         switch (Math.floor(uviIndex)) {
@@ -183,7 +183,7 @@ $(document).ready(function() {
     function displayFutureWeatherData(date, weatherIcon, temp, humidity, index) {
         
         // var index = 1;
-        var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
+        var iconSrc = "https://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
         // fill in data
         $("#date-"+index).text(date);
