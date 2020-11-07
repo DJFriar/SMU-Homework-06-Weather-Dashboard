@@ -26,6 +26,10 @@ header {
     padding-bottom: 20px;
 }
 
+#currentUV {
+    padding: 2px;
+}
+
 .container {
     margin-top: 10px;
 }
@@ -73,10 +77,6 @@ h5 {
     font-size: 1.2em;
 }
 
-.card-title {
-    padding-bottom: 0;
-}
-
-#temp-0, #temp-1, #temp-2, #temp-3, #temp-4  {
+#temp-0, #temp-1, #temp-2, #temp-3, #temp-4, .card-title  {
     margin-bottom: 0;
 } 

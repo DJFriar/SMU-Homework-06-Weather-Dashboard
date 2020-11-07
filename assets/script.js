@@ -24,9 +24,6 @@ $(document).ready(function() {
         // fetch the weather data
         fetchCurrentWeather();
         fetch5DayForecast();
-
-        // display the weather data
-        // displayCurrentWeatherData();
     });
 
     function logCityToHistoryArea() {
@@ -42,14 +39,11 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET"
           }).then(function(response) {
-            console.log(response);
-
             // set up required variables
             var weatherIcon = "";
             var temp = "";
             var humidity = "";
             var windSpeed = "";
-            var uviIndex = "";
             var lat = "";
             var long = "";
 
@@ -73,6 +67,7 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET"
           }).then(function(response) {
+              console.log(response);
             var uviIndex = response.value
 
             // display everything on the screen
@@ -88,10 +83,8 @@ $(document).ready(function() {
             method: "GET"
           }).then(function(response) {
               var truncatedResponse = $(response.list).slice(0,5);
-              console.log(truncatedResponse);
 
               // set up required variables
-            //   var todaysDate = moment().format("M/D/YYYY");
               var date = "";
               var dayOffset = 1;
               var weatherIcon = "";
@@ -119,6 +112,32 @@ $(document).ready(function() {
 
     function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex) {
         var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
+
+        // color code the UV Index
+        switch (Math.floor(uviIndex)) {
+            case 0:
+            case 1:
+            case 2:
+                $("#currentUV").attr("style", "background-color: green; color: white;");
+                break;
+            case 3:
+            case 4:
+            case 5:
+                $("#currentUV").attr("style", "background-color: yellow;");
+                break;
+            case 6:
+            case 7:
+                $("#currentUV").attr("style", "background-color: orange;");
+                break;
+            case 8:
+            case 9:
+            case 10:
+                $("#currentUV").attr("style", "background-color: red; color: white;");
+                break;
+            default:
+                $("#currentUV").css("background-color: violet;");
+                break;
+        }
 
         // fill in data
         $("#todaysDate").text(now);
@@ -152,5 +171,10 @@ $(document).ready(function() {
         $("#futureForecast").fadeIn(500);
         $("#lastUpdatedNotice").fadeIn(500);
     }
+
+    // handle the city history click
+    $(".list-group-item").on("click", function() {
+        alert("Clicked a city!");
+    });
 
 });
