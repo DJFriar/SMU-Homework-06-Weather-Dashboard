@@ -6,6 +6,7 @@ $(document).ready(function() {
     var currentWeatherAPIurl = "https://api.openweathermap.org/data/2.5/weather?q=";
     var weatherAPIunits = "&units=imperial";
     var inputtedCity = "";
+    var cityIndex = 0;
 
     // handle the search button click
     $("#searchBtn").on("click", function(event) {
@@ -24,6 +25,19 @@ $(document).ready(function() {
         // fetch the weather data
         fetchCurrentWeather();
         fetch5DayForecast();
+    });
+
+    // handle the city history click
+    $("ul").on("click", "li", function(event) {
+        event.preventDefault();
+
+        // set the city to the one clicked
+        inputtedCity = $(this).text();
+
+        // fetch the weather data
+        fetchCurrentWeather();
+        fetch5DayForecast();
+
     });
 
     function logCityToHistoryArea() {
@@ -102,7 +116,6 @@ $(document).ready(function() {
                 displayFutureWeatherData(date, weatherIcon, temp, humidity, index);
               });
               
-
               // push results to browser
               showFutureForecast();
 
@@ -171,10 +184,5 @@ $(document).ready(function() {
         $("#futureForecast").fadeIn(500);
         $("#lastUpdatedNotice").fadeIn(500);
     }
-
-    // handle the city history click
-    $(".list-group-item").on("click", function() {
-        alert("Clicked a city!");
-    });
 
 });

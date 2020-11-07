@@ -26,6 +26,14 @@ header {
     padding-bottom: 20px;
 }
 
+#todaysDate {
+    font-size: 1.5em;
+}
+
+#currentWeather p {
+    margin-bottom: 0;
+}
+
 #currentUV {
     padding: 2px;
 }
