@@ -6,6 +6,17 @@ header {
     height: 60px;
 }
 
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1600px;
+    }
+}
+
+.container {
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
 #leftSidebar {
     background-color: aliceblue;
     border-radius: 16px;
