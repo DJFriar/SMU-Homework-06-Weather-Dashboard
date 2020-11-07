@@ -26,7 +26,7 @@ $(document).ready(function() {
         fetch5DayForecast();
 
         // display the weather data
-        displayWeatherData();
+        // displayCurrentWeatherData();
     });
 
     function logCityToHistoryArea() {
@@ -56,27 +56,27 @@ $(document).ready(function() {
             // extract the required data from the response
             lat = response.coord.lat;
             long = response.coord.lon;
-            uviIndex = fetchCurrentUVI(lat, long);
             weatherIcon = response.weather[0].icon;
             temp = response.main.temp;
             humidity = response.main.humidity;
             windSpeed = response.wind.speed;
 
-            // push the data to the front end
-            displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex);
+            // Since we have to use ES5, pass everything over to the UVI function which will also push the data to the screen
+            fetchCurrentUVI(lat, long, temp, humidity, windSpeed, weatherIcon);
         });
     };
 
-    function fetchCurrentUVI(lat, long) {
+    function fetchCurrentUVI(lat, long, temp, humidity, windSpeed, weatherIcon) {
         var queryURL = "http://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + long + APIKey;
 
         $.ajax({
             url: queryURL,
             method: "GET"
           }).then(function(response) {
-            console.log(response);
-            var uvi = response.value
-            return(uvi);
+            var uviIndex = response.value
+
+            // display everything on the screen
+            displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex);
         });
     }
 
@@ -87,30 +87,37 @@ $(document).ready(function() {
             url: queryURL,
             method: "GET"
           }).then(function(response) {
-              console.log(response);
+              var truncatedResponse = $(response.list).slice(0,5);
+              console.log(truncatedResponse);
 
               // set up required variables
+            //   var todaysDate = moment().format("M/D/YYYY");
+              var date = "";
+              var dayOffset = 1;
               var weatherIcon = "";
               var temp = "";
               var humidity = "";
 
               // extract the required data from the response
-              weatherIcon = response.list[0].weather[0].icon
-              temp = response.list[0].main.temp;
-              humidity = response.list[0].main.humidity;
+              truncatedResponse.each(function(index) {
+                  
+                date = moment().add(index+1, "d").format("M/D/YYYY");
+                weatherIcon = response.list[index].weather[0].icon
+                temp = response.list[index].main.temp;
+                humidity = response.list[index].main.humidity;
+
+                displayFutureWeatherData(date, weatherIcon, temp, humidity, index);
+              });
+              
 
               // push results to browser
-              console.log("Day 1 Temp: " + temp);
-              console.log("Day 1 Humidity: " + humidity);
-              displayFutureWeatherData();
+              showFutureForecast();
 
         });
 
-        // alert("fetching 5-day forecast" + inputtedCity);
     };
 
     function displayCurrentWeatherData(temp, humidity, windSpeed, weatherIcon, uviIndex) {
-        $("#currentWeather").empty();
         var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
         // fill in data
@@ -126,13 +133,24 @@ $(document).ready(function() {
         $("#currentWeather").fadeIn(500);
     };
 
-    function displayFutureWeatherData() {
-        // $("#futureForecast").empty();
+    function displayFutureWeatherData(date, weatherIcon, temp, humidity, index) {
+        
+        // var index = 1;
+        var iconSrc = "http://openweathermap.org/img/wn/" + weatherIcon +"@2x.png";
 
         // fill in data
-
-        // show the data section
-        $("#futureForecast").fadeIn(500);
+        $("#date-"+index).text(date);
+        $("#weatherIcon-"+index).attr("src",iconSrc);
+        $("#temp-"+index).text("Temp: " + temp);
+        $("#humidity-"+index).text("Humidity: " + humidity);
+        
     };
+
+    function showFutureForecast() {
+        var time = moment().format("h:mma");
+        $("#lastUpdated").text("Last updated at " + time + ".");
+        $("#futureForecast").fadeIn(500);
+        $("#lastUpdatedNotice").fadeIn(500);
+    }
 
 });
