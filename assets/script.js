@@ -8,6 +8,17 @@ $(document).ready(function() {
     var inputtedCity = "";
     var cityIndex = 0;
 
+    // Look for local storage
+    var lastCity = localStorage.getItem("lastCity");
+    if (lastCity !== null) {
+        inputtedCity = lastCity;
+        // add city to the search history
+        logCityToHistoryArea();
+        // fetch the weather data
+        fetchCurrentWeather();
+        fetch5DayForecast();
+    };
+
     // handle the search button click
     $("#searchBtn").on("click", function(event) {
         event.preventDefault();
@@ -160,6 +171,10 @@ $(document).ready(function() {
         $("#currentHumidity").text(humidity);
         $("#currentWindSpeed").text(windSpeed);
         $("#currentUV").text(uviIndex);
+
+
+        // update lastCity
+        localStorage.setItem("lastCity", inputtedCity);
 
         // show the data section
         $("#currentWeather").fadeIn(500);
